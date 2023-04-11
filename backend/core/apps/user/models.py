@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from apps.perfil.models import UserProfile
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -13,6 +14,8 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+
+        UserProfile.objects.create(user=user)  # Crear instancia de UserProfile
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
@@ -25,7 +28,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
-    name = models.CharField(_('full name'), max_length=255, blank=True, null=True)
+    name = models.CharField(_('full name'), max_length=255, blank=True, null=True, default="admin")
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('staff status'), default=False)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)

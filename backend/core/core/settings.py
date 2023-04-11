@@ -29,6 +29,7 @@ APPS_PROJECT = [
     'apps.products',
     'apps.chat',
     'apps.blog',
+    'apps.perfil'
 ]
 
 APPS_FROM_WEBSOCKET = [
