@@ -1,0 +1,13 @@
+from django.urls import path
+from .views import PostCreateView, DeleteImagesOfPost, PostDetailView
+from .views import PostEditView, PostDeleteView
+from .views import AddDislike, AddLike
+
+app_name = "apps.blog"
+
+urlpatterns = [
+    path("post/create/", PostCreateView.as_view()),
+    path("post/delete/images/<int:pk>/", DeleteImagesOfPost.as_view()),
+    path("post/view-all/", PostDetailView.as_view())
+
+]
