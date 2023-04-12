@@ -36,23 +36,21 @@ class UserProfileUpdate(APIView):
             )
 
         try:
-            CustomUser.objects.filter(id=user.id).update(name=name)
-        except:
-            return Response(
-                {'error': 'No se pudo cambiar el nombre'},
-                status=status.HTTP_404_NOT_FOUND
-            )
-
-        try:
             user_profile = UserProfile.objects.get(user=user)
-            try:
+            try:    
+                CustomUser.objects.filter(id=user.id).update(name=name)
 
-                user_profile.bio = biografia
-                user_profile.location = location
-                user_profile.url = url
+                if biografia:
+                    user_profile.bio = biografia
+
                 if birthday:
                     user_profile.birthday = birthday
-                user_profile.save()
+
+                if location:
+                    user_profile.location = location
+
+                if url:
+                    user_profile.url = url
 
                 try:
                     # Actualizar imagen de perfil

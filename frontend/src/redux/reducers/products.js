@@ -60,7 +60,7 @@ const productSlice = createSlice({
         product: payload.product,
       };
     },
-    GET_PRODUCT_FAIL() {
+    GET_PRODUCT_FAIL(state) {
       return {
         ...state,
         product: null,
@@ -73,8 +73,7 @@ const productSlice = createSlice({
         related_products: payload.related_products,
       };
     },
-    RELATED_PRODUCTS_FAIL(state, action) {
-      let payload = action.payload;
+    RELATED_PRODUCTS_FAIL(state) {
       return {
         ...state,
         related_products: null,
@@ -118,6 +117,7 @@ export const {
   GET_PRODUCT_SUCCESS,
   GET_PRODUCT_FAIL,
   RELATED_PRODUCTS_SUCCESS,
+  RELATED_PRODUCTS_FAIL,
   FILTER_PRODUCTS_SUCCESS,
   FILTER_PRODUCTS_FAIL,
   SEARCH_PRODUCTS_SUCCESS,

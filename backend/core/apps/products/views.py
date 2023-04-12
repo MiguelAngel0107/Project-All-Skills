@@ -20,11 +20,13 @@ class ProductDetailView(APIView):
                 status=status.HTTP_404_NOT_FOUND)
         
         if Product.objects.filter(id=product_id).exists():
-            product = Product.objects.get(id=product_id)
+            product_object = Product.objects.get(id=product_id)
 
-            product = ProductSerializer(product)
+            product = ProductSerializer(product_object)
+            productSuccess = product.data
+            productSuccess["category"] = product_object.category.name
 
-            return Response({'product': product.data}, status=status.HTTP_200_OK)
+            return Response({'product': productSuccess}, status=status.HTTP_200_OK)
         else:
             return Response(
                 {'error': 'Product with this ID does not exist'},
@@ -148,7 +150,7 @@ class ListRelatedView(APIView):
         category = Product.objects.get(id=product_id).category
 
         if Product.objects.filter(category=category).exists():
-            # Si la categoria tiene padrem filtrar solo por la categoria y no el padre tambien
+            # Si la categoria tiene padre, filtrar solo por la categoria y no el padre tambien
             if category.parent:
                 related_products = Product.objects.order_by(
                     '-sold'
@@ -175,9 +177,9 @@ class ListRelatedView(APIView):
             related_products = related_products.exclude(id=product_id)
             related_products = ProductSerializer(related_products, many=True)
 
-            if len(related_products.data) > 3:
+            if len(related_products.data) > 4:
                 return Response(
-                    {'related_products': related_products.data[:3]},
+                    {'related_products': related_products.data[:4]},
                     status=status.HTTP_200_OK)
             elif len(related_products.data) > 0:
                 return Response(
