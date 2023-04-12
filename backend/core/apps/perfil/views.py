@@ -7,11 +7,16 @@ from django.conf import settings
 from .models import UserProfile
 from .serializers import UserProfileSerializer, UserProfileViewSerializer
 from apps.user.models import CustomUser
+from rest_framework.parsers import MultiPartParser, FormParser
+
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 # Create your views here.
 
 
 class UserProfileUpdate(APIView):
     permission_classes = [permissions.IsAuthenticated,]
+    parser_classes = [MultiPartParser, FormParser]
 
     def put(self, request, format=None):
 
@@ -19,17 +24,11 @@ class UserProfileUpdate(APIView):
             user = self.request.user
             data = self.request.data
 
-            name = data['fullName']
-            picture = request.data.getlist('picture')
-            banner = request.data.getlist('banner')
-            print("------------------------------------------")
-            print(picture)
-            print(banner)
-            print("------------------------------------------")
-            biografia = data['biografia']
-            birthday = data['birthday']
-            location = data['location']
-            url = data['url']
+            name = data.get('fullName')
+            biografia = data.get('biografia')
+            birthday = data.get('birthday')
+            location = data.get('location')
+            url = data.get('url')
         except:
             return Response(
                 {'error': 'Falta archivos'},
@@ -45,32 +44,51 @@ class UserProfileUpdate(APIView):
             )
 
         try:
-            if birthday == "":
-                UserProfile.objects.filter(user=user).update(
-                    bio=biografia,
-                    location=location,
-                    url=url,
-                    banner=banner,
-                    picture=picture
-                )
-            else:
-                UserProfile.objects.filter(user=user).update(
-                    banner=banner,
-                    picture=picture,
-                    bio=biografia,
-                    birthday=birthday,
-                    location=location,
-                    url=url,
+            user_profile = UserProfile.objects.get(user=user)
+            try:
+
+                user_profile.bio = biografia
+                user_profile.location = location
+                user_profile.url = url
+                if birthday:
+                    user_profile.birthday = birthday
+                user_profile.save()
+
+                try:
+                    # Actualizar imagen de perfil
+                    picture_file = request.FILES.get('picture')
+                    if picture_file:
+                        if user_profile.picture:
+                            default_storage.delete(user_profile.picture.path)
+
+                        user_profile.picture = picture_file
+
+                    # Actualizar imagen de portada
+                    banner_file = request.FILES.get('banner')
+                    if banner_file:
+                        if user_profile.banner:
+                            default_storage.delete(user_profile.banner.path)
+
+                        user_profile.banner = banner_file
+
+                    user_profile.save()
+                except:
+                    return Response(
+                        {'error': 'Esta mal las Imagens Error'},
+                        status=status.HTTP_402_PAYMENT_REQUIRED
+                    )
+
+            except:
+                return Response(
+                    {'error': 'Something went wrong when updating profile'},
+                    status=status.HTTP_507_INSUFFICIENT_STORAGE
                 )
 
-            user_profile_object = UserProfile.objects.get(user=user)
-            user_profile = UserProfileSerializer(user_profile_object)
+            user_profile_serializer = UserProfileSerializer(user_profile)
+            user_profile_data = user_profile_serializer.data
 
-            user_profile_data = user_profile.data
-            user_profile_data['fullname'] = user.name
-            user_profile_data['email'] = user.email
-            user_profile_data['picture'] = user_profile_object.picture.url
-            user_profile_data['banner'] = user_profile_object.banner.url
+            user_profile_data['fullname'] = user_profile.user.name
+            user_profile_data['email'] = user_profile.user.email
 
             return Response(
                 user_profile_data,
@@ -81,6 +99,7 @@ class UserProfileUpdate(APIView):
                 {'error': 'Something went wrong when updating profile'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
 
 class UserProfileUpdateEcommerce(APIView):
     permission_classes = [permissions.IsAuthenticated,]
@@ -104,18 +123,17 @@ class UserProfileUpdateEcommerce(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-
         try:
             UserProfile.objects.filter(user=user).update(
-                    address_line_1=address_line_1,
-                    address_line_2=address_line_2,
-                    city=city,
-                    state_province_region=state_province_region,
-                    zipcode=zipcode,
-                    phone=phone,
-                    country_region=country_region,
-                    
-                )
+                address_line_1=address_line_1,
+                address_line_2=address_line_2,
+                city=city,
+                state_province_region=state_province_region,
+                zipcode=zipcode,
+                phone=phone,
+                country_region=country_region,
+
+            )
 
             user_profile = UserProfile.objects.get(user=user)
             user_profile = UserProfileSerializer(user_profile)
@@ -131,6 +149,7 @@ class UserProfileUpdateEcommerce(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class UserViewData(APIView):
     permission_classes = [permissions.IsAuthenticated,]
 
@@ -144,8 +163,6 @@ class UserViewData(APIView):
             user_profile_data = user_profile.data
             user_profile_data['fullname'] = user.name
             user_profile_data['email'] = user.email
-            
-            
 
             return Response(
                 user_profile_data,

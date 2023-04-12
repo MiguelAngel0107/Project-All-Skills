@@ -30,7 +30,6 @@ const userSlice = createSlice({
   reducers: {
     UPDATE_DATA_SUCCESS(state, action) {
       let payload = action.payload;
-      console.log(payload["fullname"])
       return {
         ...state,
         fullName: payload["fullname"],

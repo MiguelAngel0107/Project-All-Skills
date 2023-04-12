@@ -21,6 +21,7 @@ export default function ShowPost(props) {
         <HeaderPost
           author={String(Item.author)}
           date={String(Item.created_on)}
+          photo={String(props.photo_user)}
         />
 
         <div class="text-justify px-4 py-2">{String(Item.body)}</div>

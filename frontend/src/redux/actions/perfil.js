@@ -17,15 +17,15 @@ export const update_data_user = (formData) => async (dispatch) => {
       "Content-Type": "multipart/form-data",
     },
   };
-  console.log("test");
   try {
     const res = await axios.put(
       `${APP_URL_SERVIDOR}/profile/update/`,
       formData,
       config
     );
-    console.log(res);
+    
     if (res.status === 200) {
+      console.log(res.data);
       dispatch(UPDATE_DATA_SUCCESS(res.data));
       dispatch(setAlert("Actualizacion Exitosa de Datos", "green"));
     } else {
@@ -33,6 +33,7 @@ export const update_data_user = (formData) => async (dispatch) => {
       dispatch(setAlert("Error al actualizar", "red"));
     }
   } catch (err) {
+    console.log(err.data)
     dispatch(UPDATE_DATA_FAIL());
     dispatch(setAlert("Error con el servidor, intenta mas tarde", "red"));
   }

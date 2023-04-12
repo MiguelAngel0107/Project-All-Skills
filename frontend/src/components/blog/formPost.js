@@ -4,8 +4,11 @@ import DialogPost from "./formPost/dialogPost";
 import { create_new_post } from "@/redux/actions/blog";
 import { connect } from "react-redux";
 
+import APP_URL_SERVIDOR from "@/globals";
+
 const FormPost = ({
-  create_new_post
+  create_new_post,
+  photo_user
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,7 +27,7 @@ const FormPost = ({
         onClick={openModal}
       >
         <img
-          src="/media/users/admin/profile.jpg"
+          src={`${APP_URL_SERVIDOR}${photo_user}`}
           alt="Profile picture"
           class="w-10 h-10 rounded-full"
         />
@@ -57,8 +60,7 @@ const FormPost = ({
   );
 }
 const mapStateToProps = (state) => ({
-  products: state.Products.products,
-  filtered_products: state.Products.filtered_products,
+  photo_user: state.User.picture
 });
 
 export default connect(mapStateToProps, {

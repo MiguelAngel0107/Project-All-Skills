@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { get_all_post } from "@/redux/actions/blog";
 
-const Blog = ({ get_all_post, all_post }) => {
+const Blog = ({ get_all_post, all_post, photo_user }) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     get_all_post();
@@ -19,11 +19,11 @@ const Blog = ({ get_all_post, all_post }) => {
 
     if (all_post && all_post !== null) {
       all_post.map((item, index) => {
-        return display.push(<ShowPost key={index} post={item} />);
+        return display.push(<ShowPost key={index} post={item} photo_user={photo_user}/>);
       });
     } else if (all_post && all_post !== null) {
       all_post.map((item, index) => {
-        return display.push(<ShowPost key={index} post={item} />);
+        return display.push(<ShowPost key={index} post={item} photo_user={photo_user} />);
       });
     }
     return display;
@@ -44,6 +44,7 @@ const Blog = ({ get_all_post, all_post }) => {
 
 const mapStateToProps = (state) => ({
   all_post: state.Blog.Posts,
+  photo_user: state.User.picture
 });
 
 export default connect(mapStateToProps, {

@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { useState, Fragment } from "react";
 import { formatDate } from "@/helpers/formatDate";
+import APP_URL_SERVIDOR from "@/globals";
 
 export default function HeaderPost(props) {
   const fecha = props.date
@@ -10,7 +11,7 @@ export default function HeaderPost(props) {
       <div class="flex space-x-2 items-center">
         <div class="relative">
           <img
-            src="/media/users/admin/profile.jpg"
+            src={`${APP_URL_SERVIDOR}${props.photo}`}
             alt="admin picture"
             class="w-10 h-10 rounded-full"
           />

@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 def user_directory_path(instance, fielname):
-    return 'users/blogposts/{0}'.format(fielname)
+    return 'users/blogposts/{}'.format(fielname)
 
 
 class BlogPost(models.Model):
