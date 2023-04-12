@@ -1,4 +1,5 @@
 import Link from "next/link";
+import APP_URL_SERVIDOR from "@/globals";
 
 const ItemProduct = ({product}) => {
   return (
@@ -7,7 +8,7 @@ const ItemProduct = ({product}) => {
         <img
           alt="ecommerce"
           class="object-cover object-center w-full h-full block"
-          src="https://dummyimage.com/420x260"
+          src={`${APP_URL_SERVIDOR}${String(product.photo)}`}
         />
       </Link>
       <div class="mt-4">

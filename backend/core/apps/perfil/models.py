@@ -11,15 +11,15 @@ VERIFICATION_OPTIONS=(
 )
 
 def user_directory_path_profile(instance, filename):
-    profile_picture_name = 'users/{0}/profile.jpg'.format(instance.user.name)
+    profile_picture_name = 'users/perfiles/{0}/profile.jpg'.format(instance.user.name)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_picture_name
 
 def user_directory_path_banner(instance, filename):
-    profile_picture_name = 'users/{0}/banner.jpg'.format(instance.user.name)
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
+    profile_picture_name = 'users/portadas/{0}/banner.jpg'.format(instance.user.name)
+    full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name.user.name)
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_picture_name

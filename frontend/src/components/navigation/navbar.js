@@ -73,7 +73,7 @@ const NavBar = ({ isAuthenticated, logout }) => {
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
-                  <button
+                  <Link href="/perfil/view-all/"
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -89,8 +89,8 @@ const NavBar = ({ isAuthenticated, logout }) => {
                         aria-hidden="true"
                       />
                     )}
-                    Edit
-                  </button>
+                    Perfil
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>

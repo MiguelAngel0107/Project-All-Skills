@@ -19,6 +19,9 @@ urlpatterns = [
     # User
     path('user/', include('apps.user.urls')),
 
+    # Perfil User
+    path('profile/', include('apps.perfil.urls')),
+
     # Ecommerce
     path('ecommerce/category/', include('apps.category.urls')),
     path('ecommerce/products/', include('apps.products.urls')),
