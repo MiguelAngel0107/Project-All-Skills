@@ -1,4 +1,6 @@
-const Banner = () => {
+import APP_URL_SERVIDOR from "@/globals";
+
+const Banner = (props) => {
   return (
     <section class="text-gray-400 bg-gray-900 body-font">
       <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -27,7 +29,7 @@ const Banner = () => {
           <img
             class="object-cover object-center rounded"
             alt="hero"
-            src="https://dummyimage.com/720x600"
+            src={props.photo ?`${APP_URL_SERVIDOR}${String(props.photo)}`: "https://dummyimage.com/720x600"}
           />
         </div>
       </div>

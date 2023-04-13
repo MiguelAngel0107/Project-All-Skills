@@ -1,5 +1,6 @@
-const createWebSocket = () => {
-  const ws = new WebSocket("ws://localhost:8000/ws/chat/kakao/");
+const createWebSocket = (text) => {
+  const roomName = JSON.parse(text);
+  const ws = new WebSocket("ws://localhost:8000/ws/" + roomName + "/");
   ws.onopen = () => {
     console.log("WebSocket conectado");
   };

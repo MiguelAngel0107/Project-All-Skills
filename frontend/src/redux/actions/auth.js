@@ -139,7 +139,6 @@ export const login = (email, password) => async (dispatch) => {
     if (res.status === 200) {
       dispatch(LOGIN_SUCCESS(res.data));
       dispatch(REMOVE_AUTH_LOADING());
-      dispatch(load_user());
       dispatch(setAlert("Inicio de sesión con éxito", "green"));
     } else {
       dispatch(LOGIN_FAIL());

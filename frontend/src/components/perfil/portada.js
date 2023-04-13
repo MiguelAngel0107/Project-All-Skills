@@ -9,7 +9,14 @@ import APP_URL_SERVIDOR from "@/globals";
 //"https://picsum.photos/800/400"
 //"https://picsum.photos/200"
 
-const ProfileEditor = ({ picture, banner, fullName }) => {
+const ProfileEditor = ({
+  picture,
+  banner,
+  fullName,
+  biografia,
+  birthday,
+  urlWeb,
+}) => {
   useEffect(() => {
     console.log(banner);
   }, []);
@@ -37,19 +44,42 @@ const ProfileEditor = ({ picture, banner, fullName }) => {
           </div>
         </div>
       </div>
-      <div class="p-4 md:p-8">
-        <div class="mt-2">
-          <p class="text-gray-200 font-semibold text-lg md:text-xl">
-            Pensamiento:
-          </p>
-          <p class="text-gray-600 mt-2 text-base md:text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id dui
-            ultricies, venenatis risus quis, vulputate sapien. Nunc id orci vel
-            felis posuere sodales sit amet sit amet risus. Etiam in ante et mi
-            iaculis tempor vel vel magna.
-          </p>
+      {biografia && (
+        <div class="p-4 md:p-2">
+          <div class="mt-2">
+            <p class="text-gray-200 font-semibold text-lg md:text-xl">
+              Biografia:
+            </p>
+            <p class="text-gray-400 mt-2 text-base md:text-lg">
+              {String(biografia)}s
+            </p>
+          </div>
         </div>
-      </div>
+      )}
+      {birthday && (
+        <div class="p-4 md:p-2">
+          <div class="mt-2">
+            <p class="text-gray-200 font-semibold text-lg md:text-xl">
+              Birthday:
+            </p>
+            <p class="text-gray-400 mt-2 text-base md:text-lg">
+              {String(birthday)}s
+            </p>
+          </div>
+        </div>
+      )}
+      {urlWeb && (
+        <div class="p-4 md:p-2">
+          <div class="mt-2">
+            <p class="text-gray-200 font-semibold text-lg md:text-xl">
+              My Page:
+            </p>
+            <p class="text-gray-400 mt-2 text-base md:text-lg hover:text-blue-500">
+              <a href={`${String(urlWeb)}`}>{String(urlWeb)}</a>
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -58,6 +88,9 @@ const mapStateToProps = (state) => ({
   picture: state.User.picture,
   banner: state.User.banner,
   fullName: state.User.fullName,
+  biografia: state.User.bio,
+  birthday: state.User.birthday,
+  urlWeb: state.User.url,
 });
 
 export default connect(mapStateToProps, {})(ProfileEditor);

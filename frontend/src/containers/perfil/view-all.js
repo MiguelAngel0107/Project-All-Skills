@@ -13,7 +13,6 @@ import ProfileEditor from "@/components/perfil/portada";
 export default function View_All() {
   const [screenWidth, setScreenWidth] = useState(0);
   const [hover, setHover] = useState([true, false, false, false]);
-  useEffect(() => {}, [hover]);
 
   const Change = (e) => {
     if (e[0]) {
@@ -28,7 +27,6 @@ export default function View_All() {
     if (e[3]) {
       return <Four />;
     }
-    console.log(e);
   };
   useEffect(() => {
     setScreenWidth(window.innerWidth);

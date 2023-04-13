@@ -38,18 +38,20 @@ class UserProfileUpdate(APIView):
         try:
             user_profile = UserProfile.objects.get(user=user)
             try:    
-                CustomUser.objects.filter(id=user.id).update(name=name)
 
-                if biografia:
+                if name != "":
+                    CustomUser.objects.filter(id=user.id).update(name=name)
+
+                if biografia != "":
                     user_profile.bio = biografia
 
-                if birthday:
+                if birthday != "":
                     user_profile.birthday = birthday
 
-                if location:
+                if location != "":
                     user_profile.location = location
 
-                if url:
+                if url != "":
                     user_profile.url = url
 
                 try:

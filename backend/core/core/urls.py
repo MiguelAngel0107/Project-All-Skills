@@ -28,5 +28,10 @@ urlpatterns = [
 
     # Blog
     path('blog/', include('apps.blog.urls')),
+
+    # Chat
+    path("chat/", include("apps.chat.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
 
