@@ -61,6 +61,7 @@
     {{ room_name|json_script:"json-roomname" }} 
     {{ username|json_script:"json-username" }}
     <script>
+      // Espacio de Mensajes
       function scrollToBottom() {
         let objDiv = document.getElementById("chat-messages");
         objDiv.scrollTop = objDiv.scrollHeight;
@@ -75,11 +76,11 @@
       const chatSocket = new WebSocket(
         "ws://" + window.location.host + "/ws/" + roomName + "/"
       );
-
+      // por defecto
       chatSocket.onmessage = function (e) {
         console.log("onMessage");
       };
-
+  // por defecto
       chatSocket.onclose = function (e) {
         console.error("The socket closed unexpectedly");
       };

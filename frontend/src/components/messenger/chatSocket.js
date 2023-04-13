@@ -1,6 +1,5 @@
 const createWebSocket = (text) => {
-  const roomName = JSON.parse(text);
-  const ws = new WebSocket("ws://localhost:8000/ws/" + roomName + "/");
+  const ws = new WebSocket("ws://localhost:8000/ws/" + text + "/");
   ws.onopen = () => {
     console.log("WebSocket conectado");
   };

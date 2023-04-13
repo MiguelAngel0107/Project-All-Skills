@@ -28,8 +28,7 @@ const MessageInput = (props) => {
           type="text"
           value={props.text}
           onChange={props.handleInputChange}
-          className="flex-1 rounded-full border-2 border-indigo-600 px-4 py-2 focus:outline-none focus:border-indigo-500"
-          placeholder="Escribe un mensaje"
+          className="text-gray-900 flex-1 rounded-full border-2 border-indigo-600 px-4 py-2 focus:outline-none focus:border-indigo-500"
         />
         <button
           type="submit"

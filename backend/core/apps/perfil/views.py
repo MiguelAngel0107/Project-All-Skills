@@ -100,7 +100,6 @@ class UserProfileUpdate(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-
 class UserProfileUpdateEcommerce(APIView):
     permission_classes = [permissions.IsAuthenticated,]
 
@@ -148,7 +147,6 @@ class UserProfileUpdateEcommerce(APIView):
                 {'error': 'Something went wrong when updating profile'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
 
 class UserViewData(APIView):
     permission_classes = [permissions.IsAuthenticated,]

@@ -1,38 +1,45 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import MessageInput from "./showMessages/messageInput";
 import { useState } from "react";
 import createWebSocket from "@/components/messenger/chatSocket";
 
-const MessageList = () => {
+import { connect } from "react-redux";
+import { get_messages } from "@/redux/actions/message";
+
+const MessageList = ({ name, get_messages, ListMessages }) => {
+  const [chatSocket, setChatSocket] = useState(null);
+  const [listMessage, setListMessage] = useState([]);
+
   const [text, setText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
-    const chatSocket = createWebSocket("testroom");
+    setChatSocket(createWebSocket("roomName"));
+    get_messages("roomName");
+  }, []);
 
+  if (chatSocket != null) {
     chatSocket.onmessage = function (e) {
       console.log("onMessage");
     };
+  }
+
+  if (chatSocket != null) {
     chatSocket.onmessage = function (e) {
       const data = JSON.parse(e.data);
-
-      if (data.message) {
-        document.querySelector("#chat-messages").innerHTML +=
-          "" + data.username + ": " + data.message + "";
-      } else {
-        alert("The message was empty!");
-      }
+      setListMessage((prevState) => prevState.concat(data));
+      console.log(data);
     };
-  }, []);
+  }
 
   const handleInputChange = (event) => {
+    console.log("Paso el InputChange");
     setText(event.target.value);
   };
 
   const handleEmojiSelect = (emoji) => {
     setText(text + emoji.native);
   };
-
   const toggleEmojiPicker = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
@@ -40,6 +47,13 @@ const MessageList = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     console.log(`Message sent: ${text}`);
+    chatSocket.send(
+      JSON.stringify({
+        message: text,
+        username: name,
+        room: "roomName",
+      })
+    );
     setText("");
   };
 
@@ -50,61 +64,56 @@ const MessageList = () => {
       sender: "Juan Perez",
       timestamp: "Hace 5 minutos",
     },
-    {
-      id: 2,
-      content: "Estoy bien, gracias. ¿Y tú?",
-      sender: "Maria Rodriguez",
-      timestamp: "Hace 3 minutos",
-    },
-    {
-      id: 3,
-      content: "Todo bien también, gracias",
-      sender: "Juan Perez",
-      timestamp: "Hace 2 minutos",
-    },
-    {
-      id: 4,
-      content: "Todo bien también, gracias",
-      sender: "Juan Perez",
-      timestamp: "Hace 2 minutos",
-    },
-    {
-      id: 5,
-      content: "Todo bien también, gracias",
-      sender: "Maria Rodriguez",
-      timestamp: "Hace 2 minutos",
-    },
-    {
-      id: 6,
-      content: "Todo bien también, gracias",
-      sender: "Juan Perez",
-      timestamp: "Hace 2 minutos",
-    },
+   
   ];
+
+  let MessagesFilters;
+  listMessage ? (MessagesFilters = listMessage) : (MessagesFilters = messages);
+  let MessagesBackennd;
+  ListMessages
+    ? (MessagesBackennd = ListMessages)
+    : (MessagesBackennd = messages);
 
   return (
     <div className="flex-1 p-4 bg-gray-900 text-white">
       <h2 className="text-lg font-medium mb-4">Mensajes</h2>
       <ul className="space-y-4">
-        {messages.map((message) => (
+        {MessagesBackennd.map((message, index) => (
           <li
-            key={message.id}
+            key={index}
             className={`flex flex-col ${
-              message.sender === "Juan Perez" ? "items-start" : "items-end"
+              message.username === name ? "items-end" : "items-start"
             }`}
           >
             <div
               className={`inline-block px-4 py-2 rounded-lg ${
-                message.sender === "Juan Perez"
+                message.username === name
                   ? "bg-indigo-600 text-white rounded-br-none"
                   : "bg-gray-100 text-gray-900 rounded-bl-none"
               }`}
             >
-              <p className="text-sm">{message.content}</p>
+              <p className="text-sm">{message.message}</p>
             </div>
-            <span className="text-xs text-gray-400 mt-1">
-              {message.timestamp}
-            </span>
+            <span className="text-xs text-gray-400 mt-1">Undefined</span>
+          </li>
+        ))}
+        {MessagesFilters.map((message, index) => (
+          <li
+            key={index}
+            className={`flex flex-col ${
+              message.username === name ? "items-end" : "items-start"
+            }`}
+          >
+            <div
+              className={`inline-block px-4 py-2 rounded-lg ${
+                message.username === name
+                  ? "bg-indigo-600 text-white rounded-br-none"
+                  : "bg-gray-100 text-gray-900 rounded-bl-none"
+              }`}
+            >
+              <p className="text-sm">{message.message}</p>
+            </div>
+            <span className="text-xs text-gray-400 mt-1">Undefined</span>
           </li>
         ))}
       </ul>
@@ -120,4 +129,9 @@ const MessageList = () => {
   );
 };
 
-export default MessageList;
+const mapStateToProps = (state) => ({
+  name: state.User.fullName,
+  ListMessages: state.Chat.listMessages,
+});
+
+export default connect(mapStateToProps, { get_messages })(MessageList);
