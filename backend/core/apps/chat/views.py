@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from .serializers import MessageSerializer
 
-
 class ListMessages(APIView):
     permission_classes = [permissions.IsAuthenticated,]
 
@@ -28,3 +27,12 @@ class ListMessages(APIView):
                 {'error': 'Something went wrong when updating profile'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
+
+class ListContacts(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
+
+    def post(self, request):
+        user = self.request.user
+
+        #try:

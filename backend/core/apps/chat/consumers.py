@@ -4,6 +4,9 @@ from channels.generic.websocket import AsyncWebsocketConsumer  # The class we're
 from asgiref.sync import sync_to_async  # Implement later
 
 from .models import Message
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -30,8 +33,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = data['message']
         username = data['username']
         room = data['room']
-
+    
         await self.save_message(username, room, message)
+
         # Send message to room group
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -55,4 +59,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @sync_to_async
     def save_message(self, username, room, message):
-        Message.objects.create(username=username, room=room, content=message)
+        user = User.objects.get(id=username)
+        Message.objects.create(username=user, room=room, content=message)

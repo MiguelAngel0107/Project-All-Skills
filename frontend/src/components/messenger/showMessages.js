@@ -6,7 +6,7 @@ import createWebSocket from "@/components/messenger/chatSocket";
 import { connect } from "react-redux";
 import { get_messages } from "@/redux/actions/message";
 
-const MessageList = ({ name, get_messages, ListMessages }) => {
+const MessageList = ({ name, idUser, get_messages, ListMessages }) => {
   const [chatSocket, setChatSocket] = useState(null);
   const [listMessage, setListMessage] = useState([]);
 
@@ -14,8 +14,8 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
-    setChatSocket(createWebSocket("roomName"));
-    get_messages("roomName");
+    setChatSocket(createWebSocket("roomTest"));
+    //get_messages("roomName");
   }, []);
 
   if (chatSocket != null) {
@@ -50,8 +50,8 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
     chatSocket.send(
       JSON.stringify({
         message: text,
-        username: name,
-        room: "roomName",
+        username: idUser,
+        room: "roomTest",
       })
     );
     setText("");
@@ -64,7 +64,6 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
       sender: "Juan Perez",
       timestamp: "Hace 5 minutos",
     },
-   
   ];
 
   let MessagesFilters;
@@ -82,12 +81,12 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
           <li
             key={index}
             className={`flex flex-col ${
-              message.username === name ? "items-end" : "items-start"
+              message.username === idUser ? "items-end" : "items-start"
             }`}
           >
             <div
               className={`inline-block px-4 py-2 rounded-lg ${
-                message.username === name
+                message.username === idUser
                   ? "bg-indigo-600 text-white rounded-br-none"
                   : "bg-gray-100 text-gray-900 rounded-bl-none"
               }`}
@@ -101,12 +100,12 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
           <li
             key={index}
             className={`flex flex-col ${
-              message.username === name ? "items-end" : "items-start"
+              message.username === idUser ? "items-end" : "items-start"
             }`}
           >
             <div
               className={`inline-block px-4 py-2 rounded-lg ${
-                message.username === name
+                message.username === idUser
                   ? "bg-indigo-600 text-white rounded-br-none"
                   : "bg-gray-100 text-gray-900 rounded-bl-none"
               }`}
@@ -130,6 +129,7 @@ const MessageList = ({ name, get_messages, ListMessages }) => {
 };
 
 const mapStateToProps = (state) => ({
+  idUser: state.User.idUser,
   name: state.User.fullName,
   ListMessages: state.Chat.listMessages,
 });

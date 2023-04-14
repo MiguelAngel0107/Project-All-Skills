@@ -5,5 +5,6 @@ from . import views
 
 
 urlpatterns = [
-    path("get/", views.ListMessages.as_view())
+    path("get/", views.ListMessages.as_view()),
+
 ]

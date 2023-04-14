@@ -44,6 +44,7 @@ APPS_THIRD = [
     'rest_framework_simplejwt',
     'ckeditor',
     'ckeditor_uploader',
+    'django_extensions',
 ]
 
 INSTALLED_APPS = APPS_FROM_WEBSOCKET + APPS_DEFAULT + APPS_PROJECT + APPS_THIRD
@@ -78,7 +79,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=50),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=90),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
