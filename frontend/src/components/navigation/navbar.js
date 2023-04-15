@@ -20,9 +20,24 @@ import {
   DeleteInactiveIcon,
   DeleteActiveIcon,
 } from "./helperNav";
+import APP_URL_SERVIDOR from "@/globals";
+import SellProducts from "../tienda/sellProducts/sellProducts";
+import { get_categories } from "@/redux/actions/categories";
+import { created_product } from "@/redux/actions/products";
 
-const NavBar = ({ isAuthenticated, logout }) => {
+const NavBar = ({
+  isAuthenticated,
+  logout,
+  photoUser,
+  categories,
+  get_categories,
+  created_product
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
+  useEffect(() => {
+    get_categories();
+  }, []);
   const router = useRouter();
   if (redirect) {
     router.push("/");
@@ -32,6 +47,14 @@ const NavBar = ({ isAuthenticated, logout }) => {
     logout();
     setRedirect(true);
   };
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function openModal() {
+    setIsOpen(true);
+    console.log("open");
+  }
 
   const IsNotAuthenticated = (
     <>
@@ -53,11 +76,19 @@ const NavBar = ({ isAuthenticated, logout }) => {
     <div>
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-            <FontAwesomeIcon
-              icon={faCircleUser}
-              className="h-10 w-10 text-indigo-400"
-            />
+          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-gray-900 bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            {photoUser == null ? (
+              <FontAwesomeIcon
+                icon={faCircleUser}
+                className="h-10 w-10 text-indigo-400"
+              />
+            ) : (
+              <img
+                class="h-10 w-10 text-indigo-400"
+                src={`${APP_URL_SERVIDOR}${String(photoUser)}`}
+                alt="Banner"
+              />
+            )}
           </Menu.Button>
         </div>
         <Transition
@@ -73,7 +104,8 @@ const NavBar = ({ isAuthenticated, logout }) => {
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (
-                  <Link href="/perfil/view-all/"
+                  <Link
+                    href="/perfil/view-all/"
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -96,6 +128,7 @@ const NavBar = ({ isAuthenticated, logout }) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                    onClick={openModal}
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -111,7 +144,7 @@ const NavBar = ({ isAuthenticated, logout }) => {
                         aria-hidden="true"
                       />
                     )}
-                    Duplicate
+                    Sell
                   </button>
                 )}
               </Menu.Item>
@@ -190,6 +223,12 @@ const NavBar = ({ isAuthenticated, logout }) => {
           </Menu.Items>
         </Transition>
       </Menu>
+      <SellProducts
+        isOpen={isOpen}
+        closeModal={closeModal}
+        categories={categories}
+        created_product={created_product}
+      />
     </div>
   );
 
@@ -241,6 +280,12 @@ const NavBar = ({ isAuthenticated, logout }) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.Auth.isAuthenticated,
+  photoUser: state.User.picture,
+  categories: state.Category.categories,
 });
 
-export default connect(mapStateToProps, { logout })(NavBar);
+export default connect(mapStateToProps, {
+  logout,
+  get_categories,
+  created_product,
+})(NavBar);

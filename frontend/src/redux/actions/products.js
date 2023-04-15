@@ -16,6 +16,36 @@ import {
   FILTER_PRODUCTS_FAIL,
 } from "../reducers/products";
 import APP_URL_SERVIDOR from "@/globals";
+import { setAlert } from "./alert";
+
+export const created_product = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  try {
+    const res = await axios.post(
+      `${APP_URL_SERVIDOR}/ecommerce/products/create/`,
+      formData,
+      config
+    );
+
+    if (res.status === 201) {
+      //dispatch(GET_PRODUCTS_SUCCESS(res.data));
+      dispatch(setAlert("Tu Producto se creo Satisfactoriamente", "green"));
+    } else {
+      //dispatch(GET_PRODUCTS_FAIL());
+      dispatch(setAlert("Error al crear el post", "red"));
+    }
+  } catch (err) {
+    //dispatch(GET_PRODUCTS_FAIL());
+    dispatch(setAlert("Error con el servidor, intenta mas tarde", "red"));
+  }
+};
 
 export const get_products = () => async (dispatch) => {
   const config = {

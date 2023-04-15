@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from apps.category.models import Category
+from apps.user.models import CustomUser
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
@@ -12,6 +13,7 @@ class Product(models.Model):
     quantity = models.IntegerField(default=0)
     sold = models.IntegerField(default=0)
     date_created = models.DateTimeField(default=datetime.now)
+    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

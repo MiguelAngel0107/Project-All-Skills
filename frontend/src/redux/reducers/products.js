@@ -21,7 +21,7 @@ const productSlice = createSlice({
         products: payload.products,
       };
     },
-    GET_PRODUCTS_FAIL() {
+    GET_PRODUCTS_FAIL(state) {
       return {
         ...state,
         products: null,
@@ -34,7 +34,7 @@ const productSlice = createSlice({
         products_arrival: payload.products,
       };
     },
-    GET_PRODUCTS_BY_ARRIVAL_FAIL() {
+    GET_PRODUCTS_BY_ARRIVAL_FAIL(state) {
       return {
         ...state,
         products_arrival: null,
@@ -47,7 +47,7 @@ const productSlice = createSlice({
         products_sold: payload.products,
       };
     },
-    GET_PRODUCTS_BY_SOLD_FAIL() {
+    GET_PRODUCTS_BY_SOLD_FAIL(state) {
       return {
         ...state,
         products_sold: null,
@@ -86,7 +86,7 @@ const productSlice = createSlice({
         filtered_products: payload.filtered_products,
       };
     },
-    FILTER_PRODUCTS_FAIL() {
+    FILTER_PRODUCTS_FAIL(state) {
       return {
         ...state,
         filtered_products: null,
@@ -99,7 +99,7 @@ const productSlice = createSlice({
         search_products: payload.search_products,
       };
     },
-    SEARCH_PRODUCTS_FAIL() {
+    SEARCH_PRODUCTS_FAIL(state) {
       return {
         ...state,
         search_products: null,

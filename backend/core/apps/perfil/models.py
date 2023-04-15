@@ -54,3 +54,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
+    def get_products(self):
+        from apps.products.models import Product  # importar aquí
+        products = Product.objects.filter(vendor=self.user)
+        return products
