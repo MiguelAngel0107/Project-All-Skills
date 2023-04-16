@@ -192,9 +192,10 @@ export default function SellProducts(props) {
               <div className="flex justify-center">
                 <button
                   type="submit"
+                  onClick={props.closeModal}
                   className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                  Enviar
+                  Create Producto
                 </button>
               </div>
             </form>

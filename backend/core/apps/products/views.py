@@ -67,6 +67,7 @@ class ProductDetailView(APIView):
             product = ProductSerializer(product_object)
             productSuccess = product.data
             productSuccess["category"] = product_object.category.name
+            productSuccess["seller_name"] = product_object.seller.name
 
             return Response({'product': productSuccess}, status=status.HTTP_200_OK)
         else:

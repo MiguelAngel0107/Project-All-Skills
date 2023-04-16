@@ -1,4 +1,5 @@
 import APP_URL_SERVIDOR from "@/globals";
+import Link from "next/link";
 import React from "react";
 
 export default function BannerDetail(props) {
@@ -13,9 +14,9 @@ export default function BannerDetail(props) {
             src={`${APP_URL_SERVIDOR}${Producto.photo}`}
           />
           <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">
-              {Producto.category}
-            </h2>
+            <Link href={`/perfil/${Producto.seller}`}class="text-sm title-font text-gray-500 tracking-widest">
+              {Producto.category}<p class="hover:text-white">{"Sould by: "}{Producto.seller_name}</p>
+            </Link>
             <h1 class="text-white text-3xl title-font font-medium mb-1">
               {Producto.name}
             </h1>

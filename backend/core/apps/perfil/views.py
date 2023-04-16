@@ -5,12 +5,13 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from .models import UserProfile
-from .serializers import UserProfileSerializer, UserProfileViewSerializer
+from .serializers import UserProfileSerializer, UserProfileViewSerializer, PublicProfileSerializer
 from apps.user.models import CustomUser
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+from django.core import serializers
+import json
 # Create your views here.
 
 
@@ -37,7 +38,7 @@ class UserProfileUpdate(APIView):
 
         try:
             user_profile = UserProfile.objects.get(user=user)
-            try:    
+            try:
 
                 if name != "":
                     CustomUser.objects.filter(id=user.id).update(name=name)
@@ -100,6 +101,7 @@ class UserProfileUpdate(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class UserProfileUpdateEcommerce(APIView):
     permission_classes = [permissions.IsAuthenticated,]
 
@@ -148,6 +150,7 @@ class UserProfileUpdateEcommerce(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class UserViewData(APIView):
     permission_classes = [permissions.IsAuthenticated,]
 
@@ -161,6 +164,36 @@ class UserViewData(APIView):
             user_profile_data = user_profile.data
             user_profile_data['fullname'] = user.name
             user_profile_data['email'] = user.email
+
+            return Response(
+                user_profile_data,
+                status=status.HTTP_200_OK
+            )
+        except:
+            return Response(
+                {'error': 'Something went wrong when updating profile'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class PublicProfileUserView(APIView):
+    permission_classes = [permissions.AllowAny,]
+
+    def get(self, request, pk):
+
+        try:
+            user_profile_object = UserProfile.objects.get(user=pk)
+            user_profile = PublicProfileSerializer(user_profile_object)
+
+            user_profile_data = user_profile.data
+            # Agregar la función get_products a la respuesta
+
+            products_json = serializers.serialize('json', user_profile_object.get_products(), fields=(
+                'name', 'photo', 'description', 'price', 'compare_price', 'category', 'quantity', 'sold'))
+
+            products = json.loads(products_json)
+            user_profile_data['products'] = products
+            user_profile_data['fullName']=user_profile_object.user.name
 
             return Response(
                 user_profile_data,
