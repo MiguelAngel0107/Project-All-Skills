@@ -31,7 +31,7 @@ const NavBar = ({
   photoUser,
   categories,
   get_categories,
-  created_product
+  created_product,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [redirect, setRedirect] = useState(false);
@@ -72,6 +72,33 @@ const NavBar = ({
       </Link>
     </>
   );
+  const categoriesTemplate = [
+    {
+      id: 1,
+      name: "Food",
+      sub_categories: [],
+    },
+    {
+      id: 2,
+      name: "Tecnology",
+      sub_categories: [],
+    },
+    {
+      id: 3,
+      name: "Electronica",
+      sub_categories: [],
+    },
+    {
+      id: 4,
+      name: "Musica",
+      sub_categories: [],
+    },
+  ];
+  let CategorySuccess;
+  categories
+    ? (CategorySuccess = categories)
+    : (CategorySuccess = categoriesTemplate);
+
   const IsSuccessAutheticated = (
     <div>
       <Menu as="div" className="relative inline-block text-left">
@@ -226,7 +253,7 @@ const NavBar = ({
       <SellProducts
         isOpen={isOpen}
         closeModal={closeModal}
-        categories={categories}
+        categories={CategorySuccess}
         created_product={created_product}
       />
     </div>
