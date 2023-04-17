@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 
 
 from rest_framework.views import APIView
+from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.parsers import FileUploadParser, MultiPartParser
@@ -14,16 +15,18 @@ from rest_framework.parsers import FileUploadParser, MultiPartParser
 
 from .serializers import SocialCommentSerializer, SocialPostSerializer, BlogPostCreateSerializer
 from .models import BlogComment, BlogPost, Image
+from apps.perfil.models import UserProfile
 from .forms import SocialCommentForm
 
 
 class PostCreateView(APIView):
     permission_classes = (permissions.IsAuthenticated, )
+
     def post(self, request, format=None):
         files = request.data.getlist('image')
         data = self.request.data
-        if not files :
-            return Response({"Error":"Agrega al menos una imagen"}, status=status.HTTP_404_BAD_REQUEST)
+        if not files:
+            return Response({"Error": "Agrega al menos una imagen"}, status=status.HTTP_404_BAD_REQUEST)
 
         blogpost_serializer = BlogPostCreateSerializer(data=data)
         if blogpost_serializer.is_valid():
@@ -33,33 +36,39 @@ class PostCreateView(APIView):
                 img = Image(image=f)
                 img.save()
                 blogpost.image.add(img)
-            
+
             blogpost.save()
-            return Response({"Type":'Success'}, status=status.HTTP_201_CREATED)
-                
-        return Response({"Type":"Error"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"Type": 'Success'}, status=status.HTTP_201_CREATED)
+
+        return Response({"Type": "Error"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class DeleteImagesOfPost(APIView):
-    permission_classes=(permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get(self, request, pk):
-        #files = request.data.getlist('image')
-        #Falta aumentar que solo el author puede borrar imagenes de su post
+        # files = request.data.getlist('image')
+        # Falta aumentar que solo el author puede borrar imagenes de su post
         data = self.request.data
         if not data:
             blogDelete = BlogPost.objects.get(pk=pk)
             images = blogDelete.image.all()
             for image in images:
                 image.delete()
-            return Response({"Todo Borrado":""}, status=status.HTTP_200_OK)
+            return Response({"Todo Borrado": ""}, status=status.HTTP_200_OK)
         else:
-            return Response({"Falta Borrado":""}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"Falta Borrado": ""}, status=status.HTTP_404_NOT_FOUND)
+
 
 class PostDetailView(APIView):
     permission_classes = [permissions.AllowAny,]
+
     def get(self, request):
         posts = BlogPost.objects.all().order_by('-id')
         data = []
         for post in posts:
+            user_profile = UserProfile.objects.get(user=post.author)
+            picture = user_profile.picture
             images = post.image.all()
             image_urls = [image.image.url for image in images]
             post_data = {
@@ -67,6 +76,8 @@ class PostDetailView(APIView):
                 "body": post.body,
                 "created_on": post.created_on,
                 "author": post.author.name,
+                "author_id": post.author.id,                
+                "photo_author": picture.url,
                 "likes": post.likes.count(),
                 "dislikes": post.dislikes.count(),
                 "image_urls": image_urls
@@ -75,6 +86,9 @@ class PostDetailView(APIView):
         return Response(data, status=status.HTTP_202_ACCEPTED)
 
 
+class BlogPostDeleteView(DestroyAPIView):
+    queryset = BlogPost.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
 
 
@@ -83,7 +97,7 @@ class PostDetailViewB(APIView):
     def get(self, request, pk):
         post = BlogPost.objects.get(pk=pk)
 
-        #form = SocialCommentForm()
+        # form = SocialCommentForm()
         serializer = SocialCommentSerializer()
 
         comments = BlogComment.objects.filter(
@@ -118,6 +132,7 @@ class PostDetailViewB(APIView):
 
         return render(request, 'pages/social/detail.html', context)
 
+
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = BlogPost
@@ -132,6 +147,7 @@ class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return self.request.user == post.author
 
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     model = BlogPost
@@ -141,6 +157,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
 
 class AddLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
@@ -171,6 +188,7 @@ class AddLike(LoginRequiredMixin, View):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
+
 class AddDislike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         post = BlogPost.objects.get(pk=pk)
@@ -200,6 +218,7 @@ class AddDislike(LoginRequiredMixin, View):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
+
 class AddCommentLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         comment = BlogComment.objects.get(pk=pk)
@@ -228,6 +247,7 @@ class AddCommentLike(LoginRequiredMixin, View):
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
+
 class AddCommentDislike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         comment = BlogComment.objects.get(pk=pk)
@@ -255,6 +275,7 @@ class AddCommentDislike(LoginRequiredMixin, View):
 
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
+
 
 class CommentReplyView(LoginRequiredMixin, View):
     def post(self, request, post_pk, pk, *args, **kwargs):

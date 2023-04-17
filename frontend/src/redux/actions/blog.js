@@ -55,3 +55,9 @@ export const get_all_post = () => async (dispatch) => {
     dispatch(GET_ALL_POST_FAIL());
   }
 };
+
+
+export const delete_post = (idPost) => async dispatch => {
+  console.log("success")
+  console.log(idPost)
+}

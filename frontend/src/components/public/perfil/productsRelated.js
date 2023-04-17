@@ -7,7 +7,7 @@ function ProductsRelatedUser(props) {
     let display = [];
     if (UserPublic) {
       UserPublic.products.map((product, index) => {
-        return display.push(<ItemProduct key={index} product={product.fields} />);
+        return display.push(<ItemProduct key={index} product={product} />);
       });
     }
     return display;

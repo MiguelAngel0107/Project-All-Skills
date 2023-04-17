@@ -21,7 +21,10 @@ export default function ShowPost(props) {
         <HeaderPost
           author={String(Item.author)}
           date={String(Item.created_on)}
-          photo={String(props.photo_user)}
+          photo={String(Item.photo_author)}
+          author_id={Item.author_id}
+          idUser={props.idUser}
+          idPost={Item.id}
         />
 
         <div class="text-justify px-4 py-2">{String(Item.body)}</div>
@@ -35,26 +38,26 @@ export default function ShowPost(props) {
           </a>
         </div>
 
-        <div class="px-4 py-2">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-row-reverse items-center">
-              <span class="text-xs ml-2 text-gray-500 dark:text-dark-txt">
+        <div className="px-4 py-2 flex justify-between items-center">
+          <div className="flex items-center">
+            <div className="flex items-center mr-4">
+              <span className="text-xs ml-2 text-gray-500 dark:text-dark-txt">
                 0 Likes
               </span>
-              <div class="rounded-full grid place-items-center text-xl -ml-1 text-blue-500">
-                <i class="bx bxs-like"></i>
+              <div className="rounded-full grid place-items-center text-xl -ml-1 text-blue-500">
+                <i className="bx bxs-like"></i>
               </div>
             </div>
-            <div class="flex flex-row-reverse items-center">
-              <span class="text-xs ml-2 text-gray-500 dark:text-dark-txt">
+            <div className="flex items-center">
+              <span className="text-xs ml-2 text-gray-500 dark:text-dark-txt">
                 0 Dislikes
               </span>
-              <div class="rounded-full grid place-items-center text-xl -ml-1 text-red-500">
-                <i class="bx bxs-dislike"></i>
+              <div className="rounded-full grid place-items-center text-xl -ml-1 text-red-500">
+                <i className="bx bxs-dislike"></i>
               </div>
             </div>
-            <div class="text-gray-500 dark:text-dark-txt"></div>
           </div>
+          <div className="text-gray-500 dark:text-dark-txt"></div>
         </div>
 
         <div class="py-2 px-4">
