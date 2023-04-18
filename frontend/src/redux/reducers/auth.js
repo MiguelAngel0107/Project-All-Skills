@@ -5,7 +5,7 @@ const initialState = {
   refresh:
     typeof window !== "undefined" ? localStorage.getItem("refresh") : null,
   isAuthenticated: null,
-  isRegister: null,
+  isMetaMask: null,
   user: null,
   loading: false,
 };
@@ -42,12 +42,7 @@ const authSlice = createSlice({
         refresh: null,
       };
     },
-    SIGNUP_SUCCESS(state, action) {
-      return {
-        ...state,
-        isRegister: true,
-      };
-    },
+    SIGNUP_SUCCESS() {},
     SIGNUP_FAIL(state, action) {},
     USER_LOADED_SUCCESS(state, action) {
       let payload = action.payload;
@@ -95,6 +90,8 @@ const authSlice = createSlice({
         user: null,
       };
     },
+
+    
   },
 });
 
