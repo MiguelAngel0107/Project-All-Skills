@@ -6,7 +6,8 @@ import ProductsReducer from "./reducers/products";
 import BlogsReducer from "./reducers/blog";
 import UserReducer from "./reducers/perfil";
 import MessageReducer from "./reducers/message";
-import PublicReducer from "./reducers/public"
+import PublicReducer from "./reducers/public";
+import Web3Reducer from "./reducers/web3";
 
 const rootReducer = combineReducers({
   Alert: AlertReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   Blog: BlogsReducer,
   User: UserReducer,
   Chat: MessageReducer,
-  Public: PublicReducer
+  Public: PublicReducer,
+  Web3: Web3Reducer,
 });
 
 export default rootReducer;

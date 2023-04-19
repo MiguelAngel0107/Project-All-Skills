@@ -26,6 +26,8 @@ const Blog = ({ get_all_post, all_post, photo_user, idUser }) => {
     }
     return display;
   };
+
+  
   return (
     <Layout>
       <div class="bg-gray-900 dark:bg-dark-main">

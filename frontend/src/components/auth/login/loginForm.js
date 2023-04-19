@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import ButtonsIcon from "./buttonsIcon";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { login } from "@/redux/actions/auth";
+import { login, loginMetamask } from "@/redux/actions/auth";
 
-const LoginForm = ({ login, isAuthenticated }) => {
+const LoginForm = ({ login, isAuthenticated, loginMetamask }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,6 +22,10 @@ const LoginForm = ({ login, isAuthenticated }) => {
     e.preventDefault();
     login(email, password);
     //setActivated(true);
+  };
+
+  const handleMetamaskLogin = () => {
+    loginMetamask();
   };
 
   return (
@@ -85,7 +89,7 @@ const LoginForm = ({ login, isAuthenticated }) => {
             Iniciar Sesión
           </button>
         </form>
-        <ButtonsIcon />
+        <ButtonsIcon handleMetamaskLogin={handleMetamaskLogin}/>
         <p className="text-center mt-6 text-gray-700">
           ¿No tienes una cuenta?{" "}
           <Link
@@ -106,4 +110,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   login,
+  loginMetamask
 })(LoginForm);

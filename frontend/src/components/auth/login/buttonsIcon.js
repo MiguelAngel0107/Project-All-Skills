@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 
-export default function ButtonsIcon() {
+export default function ButtonsIcon(props) {
   return (
     <div className="flex flex-col items-center mt-6">
       <div className="flex justify-center items-center w-full">
@@ -25,7 +25,7 @@ export default function ButtonsIcon() {
           <FontAwesomeIcon icon={faGoogle} className="mr-2" />
           Google
         </button>
-        <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center">
+        <button type="button"onClick={props.handleMetamaskLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center">
           <FontAwesomeIcon icon={faEthereum} className="mr-2" />
           Metamask
         </button>

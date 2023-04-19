@@ -91,7 +91,13 @@ const authSlice = createSlice({
       };
     },
 
-    
+    METAMASK_SUCCESS(state, action) {
+      let payload = action.payload;
+      return {
+        ...state,
+        isMetaMask: payload,
+      };
+    },
   },
 });
 
@@ -109,5 +115,6 @@ export const {
   REFRESH_SUCCESS,
   REFRESH_FAIL,
   LOGOUT,
+  METAMASK_SUCCESS,
 } = authSlice.actions;
 export default authSlice.reducer;
