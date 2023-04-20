@@ -6,7 +6,7 @@ from django.conf import settings
 
 from .models import UserProfile
 from .serializers import UserProfileSerializer, UserProfileViewSerializer, PublicProfileSerializer
-from apps.user.models import CustomUser
+from apps.user.models import UserAccount
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from django.core.files.storage import default_storage
@@ -41,7 +41,7 @@ class UserProfileUpdate(APIView):
             try:
 
                 if name != "":
-                    CustomUser.objects.filter(id=user.id).update(name=name)
+                    UserAccount.objects.filter(id=user.id).update(name=name)
 
                 if biografia != "":
                     user_profile.bio = biografia

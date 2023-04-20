@@ -5,7 +5,7 @@ from rest_framework import permissions, status
 from apps.products.models import Product
 from apps.products.serializers import ProductSerializer
 from apps.category.models import Category
-from apps.user.models import CustomUser
+from apps.user.models import UserAccount
 
 from django.db.models import Q
 

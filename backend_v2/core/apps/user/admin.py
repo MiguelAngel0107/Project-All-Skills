@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser
+from .models import UserAccount
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -8,4 +8,4 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('email', 'first_name', 'last_name')
 
 
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(UserAccount, UserAdmin)

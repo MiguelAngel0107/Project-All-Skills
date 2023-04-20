@@ -3,10 +3,9 @@ from .models import UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'picture', 'banner', 'verified',
+    list_display = ('picture', 'banner', 'verified',
                     'coins')
     list_display_links = (
-        'user',
         'picture',
         'banner'
     )

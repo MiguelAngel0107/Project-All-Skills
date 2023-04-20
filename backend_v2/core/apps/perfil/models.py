@@ -11,14 +11,14 @@ VERIFICATION_OPTIONS=(
 )
 
 def user_directory_path_profile(instance, filename):
-    profile_picture_name = 'users/perfiles/{0}/picture.jpg'.format(instance.user.id)
+    profile_picture_name = 'users/perfiles/{0}/picture.jpg'.format(instance.id)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_picture_name
 
 def user_directory_path_banner(instance, filename):
-    profile_picture_name = 'users/portadas/{0}/banner.jpg'.format(instance.user.id)
+    profile_picture_name = 'users/portadas/{0}/banner.jpg'.format(instance.id)
     full_path = os.path.join(settings.MEDIA_ROOT, profile_picture_name)
     if os.path.exists(full_path):
         os.remove(full_path)
@@ -27,8 +27,6 @@ def user_directory_path_banner(instance, filename):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
     # Info for Social
     picture = models.ImageField(default='users/user_default_profile.jpg', upload_to=user_directory_path_profile)
     banner = models.ImageField(default='users/user_default_bg.jpg', upload_to=user_directory_path_banner)
@@ -52,9 +50,5 @@ class UserProfile(models.Model):
     birthday = models.DateField(null=True, blank=True)
     bio = models.TextField(max_length=150, null=True, blank=True)
 
-    def __str__(self):
-        return self.user.email
-    def get_products(self):
-        from apps.products.models import Product
-        products = Product.objects.filter(seller=self.user)
-        return products
+    #def __str__(self):
+    #    return self.user.email

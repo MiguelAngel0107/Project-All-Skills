@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 class Message(models.Model):
   username = models.ForeignKey(User, on_delete=models.CASCADE)

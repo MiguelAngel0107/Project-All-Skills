@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 def user_directory_path(instance, fielname):
     return 'users/blogposts/{}'.format(fielname)
