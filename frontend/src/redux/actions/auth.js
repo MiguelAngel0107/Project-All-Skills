@@ -12,10 +12,14 @@ import {
   REFRESH_SUCCESS,
   REFRESH_FAIL,
   LOGOUT,
+
+  METAMASK_SUCCESS
 } from "../reducers/auth";
 import { setAlert } from "./alert";
 import axios from "axios";
 import APP_URL_SERVIDOR from "@/globals";
+
+import Web3 from 'web3';
 
 export const check_authenticated = () => async (dispatch) => {
   if (localStorage.getItem("access")) {
@@ -189,3 +193,19 @@ export const logout = () => (dispatch) => {
   dispatch(LOGOUT());
   dispatch(setAlert("Succesfully logged out", "green"));
 };
+
+
+const web3 = new Web3(Web3.givenProvider);
+export const loginMetamask = () => async (dispatch) => {
+  try {
+    await window.ethereum.enable();
+    const accounts = await web3.eth.getAccounts();
+    const userAccount = accounts[0];
+    dispatch(METAMASK_SUCCESS(userAccount));
+    console.log(userAccount)
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
