@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
+
 
 from .models import Cart, CartItem
 
@@ -10,6 +11,7 @@ from apps.products.serializers import ProductSerializer
 
 
 class GetItemsView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def get(self, request, format=None):
         user = self.request.user
         try:
@@ -38,6 +40,7 @@ class GetItemsView(APIView):
 
 
 class AddItemView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def post(self, request, format=None):
         user = self.request.user
         data = self.request.data
@@ -106,6 +109,7 @@ class AddItemView(APIView):
 
 
 class GetTotalView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def get(self, request, format=None):
         user = self.request.user
 
@@ -134,6 +138,7 @@ class GetTotalView(APIView):
 
 
 class GetItemTotalView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def get(self, request, format=None):
         user = self.request.user
 
@@ -151,6 +156,7 @@ class GetItemTotalView(APIView):
 
 
 class UpdateItemView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def put(self, request, format=None):
         user = self.request.user
         data = self.request.data
@@ -219,6 +225,7 @@ class UpdateItemView(APIView):
 
 
 class RemoveItemView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def delete(self, request, format=None):
         user = self.request.user
         data = self.request.data
@@ -276,6 +283,7 @@ class RemoveItemView(APIView):
 
 
 class EmptyCartView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def delete(self, request, format=None):
         user = self.request.user
 
@@ -302,6 +310,7 @@ class EmptyCartView(APIView):
 
 
 class SynchCartView(APIView):
+    permission_classes = [permissions.IsAuthenticated,]
     def put(self, request, format=None):
         user = self.request.user
         data = self.request.data

@@ -2,6 +2,12 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import DetailProduct from "@/containers/detailProduct/detailProduct";
 import { get_product, get_related_products } from "@/redux/actions/products";
+import {
+  add_item,
+  get_items,
+  get_total,
+  get_item_total,
+} from "@/redux/actions/cart";
 import { connect } from "react-redux";
 import { useState } from "react";
 
@@ -10,6 +16,11 @@ const ProductDetailPage = ({
   get_related_products,
   producto,
   related_products,
+
+  add_item,
+  get_items,
+  get_total,
+  get_item_total,
 }) => {
   const router = useRouter();
   const [productId, setProductId] = useState(null);
@@ -29,7 +40,16 @@ const ProductDetailPage = ({
     }
   }, [router.query.productId]);
 
-  return <DetailProduct producto={producto} related_products={related_products}/>;
+  return (
+    <DetailProduct
+      producto={producto}
+      related_products={related_products}
+      add_item={add_item}
+      get_items={get_items}
+      get_total={get_total}
+      get_item_total={get_item_total}
+    />
+  );
 };
 
 const mapStateToProps = (state) => ({
@@ -40,4 +60,8 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   get_product,
   get_related_products,
+  add_item,
+  get_items,
+  get_total,
+  get_item_total,
 })(ProductDetailPage);

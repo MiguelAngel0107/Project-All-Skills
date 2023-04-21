@@ -1,9 +1,30 @@
 import APP_URL_SERVIDOR from "@/globals";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function BannerDetail(props) {
   const Producto = props.Producto;
+  const [quantity, setQuantity] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    //console.log(Producto.quantity)
+    setQuantity(Producto.quantity);
+  }, [Producto.quantity]);
+
+  const addToCart = async () => {
+    if (Producto.quantity > 0) {
+      setLoading(true);
+      await props.add_item(Producto);
+      await props.get_items();
+      await props.get_total();
+      await props.get_item_total();
+      setLoading(false);
+      //navigate('/cart')
+      console.log("Codigo ejecutado");
+    }
+  };
+
   return (
     <section class="text-gray-400 bg-gray-900 body-font overflow-hidden">
       <div class="container px-5 py-24 mx-auto">
@@ -14,8 +35,15 @@ export default function BannerDetail(props) {
             src={`${APP_URL_SERVIDOR}${Producto.photo}`}
           />
           <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <Link href={`/perfil/${Producto.seller}`}class="text-sm title-font text-gray-500 tracking-widest">
-              {Producto.category}<p class="hover:text-white">{"Sould by: "}{Producto.seller_name}</p>
+            <Link
+              href={`/perfil/${Producto.seller}`}
+              class="text-sm title-font text-gray-500 tracking-widest"
+            >
+              {Producto.category}
+              <p class="hover:text-white">
+                {"Sould by: "}
+                {Producto.seller_name}
+              </p>
             </Link>
             <h1 class="text-white text-3xl title-font font-medium mb-1">
               {Producto.name}
@@ -151,7 +179,7 @@ export default function BannerDetail(props) {
                 </div>
               </div>
               <div className="flex ml-4 sm:ml-64 md:ml-96 lg:ml-10 xl:ml-28 2xl:ml-56 items-center">
-                {Producto.quantity > 0 ? (
+                {quantity > 0 ? (
                   <span className="text-green-500">In Stock</span>
                 ) : (
                   <span className="text-red-500">Out of Stock</span>
@@ -163,7 +191,11 @@ export default function BannerDetail(props) {
                 ${Producto.price}
               </span>
 
-              <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+              <button
+                type="button"
+                onClick={(e) => addToCart()}
+                class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+              >
                 Add
               </button>
               <button class="rounded-full w-10 h-10 bg-gray-800 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">

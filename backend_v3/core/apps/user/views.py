@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 
 from .serializers import UserAccountSerializer
 from apps.perfil.models import UserProfile
+from apps.cart.models import Cart
 from .models import UserAccount
 
 

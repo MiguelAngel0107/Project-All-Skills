@@ -99,7 +99,7 @@ export const login = (email, wallet_address, password) => async (dispatch) => {
     wallet_address,
     password,
   });
-  //console.log(body);
+  console.log(body);
   try {
     const res = await axios.post(
       `${APP_URL_SERVIDOR}/api/token/`,
