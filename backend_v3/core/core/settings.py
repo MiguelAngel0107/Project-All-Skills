@@ -32,7 +32,11 @@ APPS_PROJECT = [
     'apps.products',
     'apps.chat',
     'apps.blog',
-    'apps.perfil'
+    'apps.perfil',
+    'apps.cart',
+    'apps.coupons',
+    'apps.orders',
+    'apps.payment'
 ]
 
 APPS_FROM_WEBSOCKET = [
