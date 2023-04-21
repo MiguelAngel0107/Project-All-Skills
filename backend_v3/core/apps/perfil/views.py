@@ -146,6 +146,11 @@ class UserViewData(APIView):
             user_profile = UserProfileSerializer(user)
             user_profile_data = user_profile.data
 
+            products_json = serializers.serialize('json', user.get_products(), fields=(
+                'name', 'photo', 'description', 'price', 'compare_price', 'category', 'quantity', 'sold'))
+            products = json.loads(products_json)
+            user_profile_data['products'] = products
+
             return Response(
                 user_profile_data,
                 status=status.HTTP_200_OK

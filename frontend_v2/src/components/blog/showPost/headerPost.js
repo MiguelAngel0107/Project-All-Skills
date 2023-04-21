@@ -63,14 +63,14 @@ const HeaderPost = (props) => {
                 <div class="py-1" role="none">
                   <button
                     type="button"
-                    class="dark:hover:bg-dark-second dark:text-dark-txt text-gray-700 block px-4 py-2 text-sm"
+                    class="dark:hover:bg-dark-second dark:text-dark-txt text-gray-700 block px-4 py-2 text-sm hover:text-white w-full bg-white hover:bg-indigo-600" 
                   >
                     Edit
                   </button>
                   <button
                     type="button"
                     onClick={(e) => props.delete_post(props.idPost)}
-                    class="dark:hover:bg-dark-second dark:text-dark-txt text-gray-700 block px-4 py-2 text-sm"
+                    class="dark:hover:bg-dark-second dark:text-dark-txt text-gray-700 block px-4 py-2 text-sm hover:text-white w-full bg-white hover:bg-indigo-600"
                   >
                     Delete
                   </button>

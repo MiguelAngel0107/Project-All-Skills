@@ -82,6 +82,7 @@ export const view_data_user = () => async (dispatch) => {
 
     if (res.status === 200) {
       dispatch(GET_DATA_SUCCESS(res.data));
+      console.log(res.data)
     } else {
       dispatch(GET_DATA_FAIL());
     }
