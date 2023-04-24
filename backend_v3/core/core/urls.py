@@ -28,6 +28,10 @@ urlpatterns = [
     # Ecommerce
     path('ecommerce/category/', include('apps.category.urls')),
     path('ecommerce/products/', include('apps.products.urls')),
+    path('ecommerce/cart/', include('apps.cart.urls')),
+    path('ecommerce/orders/', include('apps.orders.urls')),
+    path('ecommerce/payment/', include('apps.payment.urls')),
+    path('ecommerce/coupons/', include('apps.coupons.urls')),
 
     # Blog
     path('blog/', include('apps.blog.urls')),

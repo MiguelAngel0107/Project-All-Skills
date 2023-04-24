@@ -42,7 +42,7 @@ export default function ShowPost(props) {
           <div className="flex items-center">
             <div className="flex items-center mr-4">
               <span className="text-xs ml-2 text-gray-500 dark:text-dark-txt">
-                0 Likes
+                {Item.likes} Likes
               </span>
               <div className="rounded-full grid place-items-center text-xl -ml-1 text-blue-500">
                 <i className="bx bxs-like"></i>
@@ -50,7 +50,7 @@ export default function ShowPost(props) {
             </div>
             <div className="flex items-center">
               <span className="text-xs ml-2 text-gray-500 dark:text-dark-txt">
-                0 Dislikes
+                {Item.dislikes} Dislikes
               </span>
               <div className="rounded-full grid place-items-center text-xl -ml-1 text-red-500">
                 <i className="bx bxs-dislike"></i>
@@ -66,6 +66,8 @@ export default function ShowPost(props) {
               openModal={openModal}
               isOpen={isOpen}
               closeModal={closeModal}
+              add_like_or_dislike={props.add_like_or_dislike}
+              idPost={Item.id}
             />
           </div>
         </div>

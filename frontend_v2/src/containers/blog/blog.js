@@ -6,13 +6,17 @@ import ShowPost from "@/components/blog/showPost";
 
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { get_all_post } from "@/redux/actions/blog";
+import { get_all_post, add_like_or_dislike } from "@/redux/actions/blog";
 
-const Blog = ({ get_all_post, all_post, photo_user, idUser }) => {
+const Blog = ({ get_all_post, all_post, photo_user, idUser, add_like_or_dislike }) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     get_all_post();
   }, []);
+
+  useEffect(() => {
+    showPost();
+  }, [all_post]);
 
   const showPost = () => {
     let display = [];
@@ -20,7 +24,7 @@ const Blog = ({ get_all_post, all_post, photo_user, idUser }) => {
     if (all_post && all_post !== null) {
       all_post.map((item, index) => {
         return display.push(
-          <ShowPost key={index} post={item} idUser={idUser} />
+          <ShowPost key={index} post={item} idUser={idUser} add_like_or_dislike={add_like_or_dislike}/>
         );
       });
     }
@@ -50,4 +54,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   get_all_post,
+  add_like_or_dislike
 })(Blog);

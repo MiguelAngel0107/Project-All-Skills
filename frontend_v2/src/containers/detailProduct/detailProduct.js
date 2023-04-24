@@ -74,7 +74,15 @@ function DetailProduct(props) {
     : (RelatedProducts = related);
 
   return (
-    <ViewProduct Producto={ProductoView} RelatedProducts={RelatedProducts} />
+    <ViewProduct
+      Producto={ProductoView}
+      RelatedProducts={RelatedProducts}
+      add_item={props.add_item}
+      get_items={props.get_items}
+      get_total={props.get_total}
+      get_item_total={props.get_item_total}
+      idUser={props.idUser}
+    />
   );
 }
 

@@ -24,6 +24,10 @@ const categoriesSlice = createSlice({
       };
     },
     GET_ALL_POST_FAIL() {},
+    DELETE_POST_SUCCESS() {},
+    ADD_LIKE_OR_LIKE_SUCCESS() {},
+    ADD_LIKE_OR_LIKE_FAIL() {},
+
   },
 });
 export const {
@@ -31,5 +35,9 @@ export const {
   CREATE_POST_FAIL,
   GET_ALL_POST_SUCCESS,
   GET_ALL_POST_FAIL,
+  DELETE_POST_SUCCESS,
+  ADD_LIKE_OR_LIKE_SUCCESS,
+  ADD_LIKE_OR_LIKE_FAIL,
+
 } = categoriesSlice.actions;
 export default categoriesSlice.reducer;

@@ -8,14 +8,16 @@ import UserReducer from "./reducers/perfil";
 import MessageReducer from "./reducers/message";
 import PublicReducer from "./reducers/public";
 import Web3Reducer from "./reducers/web3";
+import CartReducer from "./reducers/cart";
 
 const rootReducer = combineReducers({
   Alert: AlertReducer,
   Auth: AuthReducer,
+  User: UserReducer,
   Category: CategoryReducer,
   Products: ProductsReducer,
+  Cart: CartReducer,
   Blog: BlogsReducer,
-  User: UserReducer,
   Chat: MessageReducer,
   Public: PublicReducer,
   Web3: Web3Reducer,

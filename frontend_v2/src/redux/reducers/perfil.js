@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   idUser: null,
   fullName: "",
-  email: "",
+  email: null,
+  wallet_address: null,
 
   picture: null,
   banner: null,
@@ -23,6 +24,8 @@ const initialState = {
   zipcode: "",
   phone: "",
   country_region: "Peru",
+
+  products: null,
 };
 
 const userSlice = createSlice({
@@ -66,6 +69,7 @@ const userSlice = createSlice({
         idUser: payload["id"],
         fullName: payload["name"],
         email: payload["email"],
+        wallet_address: payload["wallet_address"],
         picture: payload["profile"]["picture"],
         banner: payload["profile"]["banner"],
         verified: payload["profile"]["verified"],
@@ -82,6 +86,7 @@ const userSlice = createSlice({
         url: payload["profile"]["url"],
         birthday: payload["profile"]["birthday"],
         bio: payload["profile"]["bio"],
+        products: payload["products"]
       };
     },
     GET_DATA_FAIL() {},

@@ -9,13 +9,11 @@ class UserAccountManager(BaseUserManager):
         """
         Creates and saves a new User with the given email and password.
         """
-        # if not email:
-        #    raise ValueError('The Email field must be set')
 
         if not email and not wallet_address:
             raise ValueError('Either email or wallet_address must be set')
 
-        print("Si existe Email o Wallet")
+        print("Existe Email o Wallet")
 
         if email:
             newProfile = UserProfile.objects.create()  # Crear instancia de UserProfile
@@ -30,9 +28,14 @@ class UserAccountManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
 
+        if user:
+            from apps.cart.models import Cart
+            cart = Cart.objects.create(user=user)
+            cart.save()
+
         return user
 
-    def create_superuser(self, email, password=None, **extra_fields):
+    def create_superuser(self, email="miguelegocheaga8@gmail.com", password=None, **extra_fields):
         """
         Creates and saves a new superuser with the given email and password.
         """
@@ -60,9 +63,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return "My ID is: " + str(self.id)
-    
+
     def get_products(self):
         from apps.products.models import Product
         products = Product.objects.filter(seller=self)
         return products
- 
