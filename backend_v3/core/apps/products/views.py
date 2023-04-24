@@ -106,8 +106,14 @@ class ListProductsView(APIView):
 
         products = ProductSerializer(products, many=True)
 
-        if products:
-            return Response({'products': products.data}, status=status.HTTP_200_OK)
+        data = []
+        for product in products.data:
+            product['category'] = Category.objects.get(id=product['category']).name
+            #product['category_name'] = product.category.name
+            data.append(product)
+
+        if data:
+            return Response({'products': data}, status=status.HTTP_200_OK)
         else:
             return Response(
                 {'error': 'No products to list'},

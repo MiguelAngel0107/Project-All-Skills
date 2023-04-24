@@ -1,11 +1,13 @@
 import APP_URL_SERVIDOR from "@/globals";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import ItemFloat from "../show_cart/itemFloat";
 
 export default function BannerDetail(props) {
   const Producto = props.Producto;
   const [quantity, setQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
     //console.log(Producto.quantity)
@@ -19,6 +21,8 @@ export default function BannerDetail(props) {
       await props.get_items();
       await props.get_total();
       await props.get_item_total();
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5000);
       setLoading(false);
       //navigate('/cart')
       console.log("Codigo ejecutado");
@@ -27,6 +31,12 @@ export default function BannerDetail(props) {
 
   return (
     <section class="text-gray-400 bg-gray-900 body-font overflow-hidden">
+      <ItemFloat
+        showNotification={showNotification}
+        photo={Producto.photo}
+        title={Producto.name}
+        price={Producto.price}
+      />
       <div class="container px-5 py-24 mx-auto">
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
           <img
@@ -190,14 +200,22 @@ export default function BannerDetail(props) {
               <span class="title-font font-medium text-2xl text-white">
                 ${Producto.price}
               </span>
-
-              <button
-                type="button"
-                onClick={(e) => addToCart()}
-                class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
-              >
-                Add
-              </button>
+              {props.idUser == props.Producto.seller ? (
+                <button
+                  type="button"
+                  class="flex ml-auto text-white bg-blue-600 border-0 py-2 px-6 focus:outline-none hover:bg-blue-900 hover:font-semibold rounded"
+                >
+                  Edit
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={(e) => addToCart()}
+                  class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 hover:font-semibold rounded"
+                >
+                  Add
+                </button>
+              )}
               <button class="rounded-full w-10 h-10 bg-gray-800 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
                   fill="currentColor"

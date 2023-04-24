@@ -81,6 +81,7 @@ function DetailProduct(props) {
       get_items={props.get_items}
       get_total={props.get_total}
       get_item_total={props.get_item_total}
+      idUser={props.idUser}
     />
   );
 }

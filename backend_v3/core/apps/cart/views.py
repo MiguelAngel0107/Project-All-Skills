@@ -232,6 +232,8 @@ class RemoveItemView(APIView):
 
         try:
             product_id = int(data['product_id'])
+            print(product_id)
+            print(type(product_id))
         except:
             return Response(
                 {'error': 'Product ID must be an integer'},

@@ -10,6 +10,7 @@ import {
   update_data_user,
   update_data_user_ecommerce,
 } from "@/redux/actions/perfil";
+import FormProfile from "./formData/formProfile";
 
 const DatosUser = ({ update_data_user, update_data_user_ecommerce }) => {
   const [formData, setFormData] = useState({
@@ -54,8 +55,6 @@ const DatosUser = ({ update_data_user, update_data_user_ecommerce }) => {
     setFormData({ ...formData, [event.target.name]: event.target.files[0] });
   };
 
-
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const formDataToSend = new FormData();
@@ -98,31 +97,33 @@ const DatosUser = ({ update_data_user, update_data_user_ecommerce }) => {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row items-center justify-center mt-16 mb-16 ">
-      <DataSocial
-        handleInputChange={handleInputChange}
-        handleImageChange={handleImageChange}
-        fullName={fullName}
-        biografia={biografia}
-        birthday={birthday}
-        location={location}
-        url={url}
-        handleSubmit={handleSubmit}
-      />
+    <>
+      <div className="flex flex-col xl:flex-row items-center justify-center mt-16 mb-16 ">
+        <DataSocial
+          handleInputChange={handleInputChange}
+          handleImageChange={handleImageChange}
+          fullName={fullName}
+          biografia={biografia}
+          birthday={birthday}
+          location={location}
+          url={url}
+          handleSubmit={handleSubmit}
+        />
 
-      <DataEcommerce
-        handleInputChange={handleInputChangeEcommerce}
-        address_line_1={address_line_1}
-        address_line_2={address_line_2}
-        city={city}
-        state_province_region={state_province_region}
-        zipcode={zipcode}
-        phone={phone}
-        country_region={country_region}
-        countries={countries}
-        handleSubmit={handleSubmitEcommerce}
-      />
-    </div>
+        <DataEcommerce
+          handleInputChange={handleInputChangeEcommerce}
+          address_line_1={address_line_1}
+          address_line_2={address_line_2}
+          city={city}
+          state_province_region={state_province_region}
+          zipcode={zipcode}
+          phone={phone}
+          country_region={country_region}
+          countries={countries}
+          handleSubmit={handleSubmitEcommerce}
+        />
+      </div>
+    </>
   );
 };
 

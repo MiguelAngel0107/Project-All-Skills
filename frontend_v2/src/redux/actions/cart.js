@@ -238,8 +238,9 @@ export const update_item = (item, count) => async (dispatch) => {
 };
 
 export const remove_item = (item) => async (dispatch) => {
+  console.log(item);
   if (localStorage.getItem("access")) {
-    const product_id = item.product.id;
+    const product_id = item;
     const body = JSON.stringify({ product_id });
 
     const config = {
@@ -256,13 +257,18 @@ export const remove_item = (item) => async (dispatch) => {
         `${APP_URL_SERVIDOR}/ecommerce/cart/remove-item/`,
         config
       );
+      console.log(res);
 
       if (res.status === 200) {
         dispatch(REMOVE_ITEM_SUCCESS(res.data));
+        get_items();
+        get_total();
+        get_item_total();
       } else {
         dispatch(REMOVE_ITEM_FAIL());
       }
     } catch (err) {
+      console.log(err);
       dispatch(REMOVE_ITEM_FAIL());
     }
   } else {

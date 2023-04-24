@@ -21,6 +21,8 @@ const ProductDetailPage = ({
   get_items,
   get_total,
   get_item_total,
+
+  idUser
 }) => {
   const router = useRouter();
   const [productId, setProductId] = useState(null);
@@ -48,11 +50,13 @@ const ProductDetailPage = ({
       get_items={get_items}
       get_total={get_total}
       get_item_total={get_item_total}
+      idUser={idUser}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
+  idUser: state.User.idUser,
   producto: state.Products.product,
   related_products: state.Products.related_products,
 });
